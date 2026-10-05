@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
+
+<title>JX FlashPay</title>
+
+<style>
+
+/* ==============================
+   RESET
+============================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    background:#000;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+
+/* ==============================
+   APP
+============================== */
+
+.app{
+    min-height:100vh;
+    min-height:100dvh;
+    width:100%;
+
+    display:flex;
+    flex-direction:column;
+
+    background:#000;
+
+    transition:
+        background .45s ease,
+        box-shadow .45s ease;
+}
+
+
+/* NIGHT MODE */
+
+.app.on{
+    background:
+        radial-gradient(
+            circle at 50% 25%,
+            #301c52 0%,
+            #1b1030 32%,
+            #0d0717 68%,
+            #050308 100%
+        );
+
+    box-shadow:
+        inset 0 0 120px rgba(109,48,170,.16);
+}
+
+
+/* ==============================
+   TOP BAR
+============================== */
+
+.topbar{
+    width:100%;
+    height:68px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0 20px;
+
+    position:relative;
+
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.app.on .topbar{
+    border-bottom-color:
+        rgba(180,120,255,.10);
+}
+
+.brand{
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:2px;
+
+    color:#f4f4f4;
+}
+
+.brand span{
+    opacity:.45;
+    font-weight:500;
+}
+
+
+/* ==============================
+   MAIN
+============================== */
+
+.main{
+    flex:1;
+
+    width:100%;
+    max-width:500px;
+
+    margin:0 auto;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    padding:
+        42px
+        22px
+        35px;
+}
+
+
+/* ==============================
+   STATUS
+============================== */
+
+.status{
+    text-align:center;
+
+    margin-bottom:28px;
+}
+
+.status-title{
+    font-size:11px;
+    font-weight:600;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+    color:#777;
+}
+
+.status-value{
+    margin-top:8px;
+
+    font-size:14px;
+    font-weight:600;
+
+    color:#aaa;
+
+    transition:color .3s ease;
+}
+
+.app.on .status-value{
+    color:#c59bff;
+}
+
+
+/* ==============================
+   FLASHLIGHT AREA
+============================== */
+
+.flash-area{
+    width:100%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    margin-top:8px;
+}
+
+
+/* MAIN SWITCH */
+
+.flash-switch{
+    width:210px;
+    height:280px;
+
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #111 0%,
+            #080808 100%
+        );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        0 20px 55px rgba(0,0,0,.55);
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    user-select:none;
+
+    transition:
+        background .4s ease,
+        border-color .4s ease,
+        box-shadow .4s ease,
+        transform .12s ease;
+}
+
+.flash-switch:active{
+    transform:scale(.98);
+}
+
+
+/* ON SWITCH */
+
+.app.on .flash-switch{
+
+    background:
+        linear-gradient(
+            180deg,
+            #25143c 0%,
+            #130a20 100%
+        );
+
+    border-color:
+        rgba(177,108,255,.30);
+
+    box-shadow:
+        0 20px 70px rgba(85,35,130,.35),
+        inset 0 0 35px rgba(150,80,230,.07);
+}
+
+
+/* ==============================
+   FLASH ICON
+============================== */
+
+.flash-icon{
+    width:86px;
+    height:86px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#171717;
+
+    color:#555;
+
+    font-size:42px;
+
+    margin-bottom:24px;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    transition:
+        background .4s ease,
+        color .4s ease,
+        box-shadow .4s ease;
+}
+
+.app.on .flash-icon{
+
+    background:
+        #8d52bd;
+
+    color:#fff;
+
+    box-shadow:
+        0 0 35px rgba(158,87,220,.35);
+}
+
+
+/* ==============================
+   SWITCH TEXT
+============================== */
+
+.switch-label{
+    font-size:14px;
+    font-weight:700;
+
+    letter-spacing:3px;
+
+    color:#777;
+
+    transition:color .3s ease;
+}
+
+.app.on .switch-label{
+    color:#e1caff;
+}
+
+.switch-hint{
+    margin-top:10px;
+
+    font-size:11px;
+
+    color:#4f4f4f;
+}
+
+.app.on .switch-hint{
+    color:#8d729e;
+}
+
+
+/* ==============================
+   BOTTOM INFO
+============================== */
+
+.bottom-info{
+    margin-top:auto;
+
+    width:100%;
+
+    text-align:center;
+
+    padding-top:35px;
+}
+
+.bottom-info p{
+    color:#454545;
+    font-size:11px;
+}
+
+.app.on .bottom-info p{
+    color:#665171;
+}
+
+
+/* ==============================
+   PAYMENT SCREEN
+============================== */
+
+.screen{
+    position:fixed;
+
+    inset:0;
+
+    z-index:50;
+
+    background:#050505;
+
+    overflow-y:auto;
+
+    animation:screenIn .25s ease;
+}
+
+@keyframes screenIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.payment-wrap{
+    width:100%;
+    max-width:500px;
+
+    min-height:100vh;
+    min-height:100dvh;
+
+    margin:auto;
+
+    padding:
+        24px
+        20px
+        35px;
+}
+
+
+/* PAYMENT HEADER */
+
+.payment-header{
+    display:flex;
+    align-items:center;
+
+    margin-bottom:30px;
+}
+
+.back-btn{
+    width:40px;
+    height:40px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    background:#111;
+
+    color:#fff;
+
+    font-size:20px;
+
+    cursor:pointer;
+}
+
+.payment-header-title{
+    margin-left:14px;
+
+    font-size:17px;
+    font-weight:700;
+}
+
+
+/* PAYMENT CARD */
+
+.payment-card{
+    background:
+        linear-gradient(
+            180deg,
+            #111 0%,
+            #0b0b0b 100%
+        );
+
+    border:1px solid #202020;
+
+    border-radius:22px;
+
+    padding:25px 20px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.45);
+}
+
+
+/* FEE */
+
+.fee-label{
+    color:#777;
+
+    font-size:12px;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+}
+
+.fee{
+    margin-top:8px;
+
+    font-size:48px;
+
+    line-height:1;
+
+    font-weight:800;
+
+    letter-spacing:-1px;
+}
+
+.fee-sub{
+    margin-top:10px;
+
+    color:#666;
+
+    font-size:12px;
+}
+
+
+/* AMOUNT */
+
+.amount-section{
+    margin-top:30px;
+}
+
+.input-label{
+    display:block;
+
+    margin-bottom:9px;
+
+    font-size:13px;
+
+    color:#aaa;
+}
+
+.amount-box{
+    width:100%;
+
+    height:58px;
+
+    border-radius:13px;
+
+    border:1px solid #292929;
+
+    background:#080808;
+
+    color:#fff;
+
+    padding:0 17px;
+
+    font-size:20px;
+
+    outline:none;
+}
+
+.amount-box:focus{
+    border-color:#75429c;
+}
+
+
+/* PAYMENT METHODS */
+
+.methods-title{
+    margin-top:28px;
+
+    margin-bottom:12px;
+
+    font-size:13px;
+
+    color:#aaa;
+}
+
+.method{
+    width:100%;
+
+    min-height:68px;
+
+    display:flex;
+    align-items:center;
+
+    padding:11px 13px;
+
+    margin-bottom:10px;
+
+    border-radius:14px;
+
+    border:1px solid #242424;
+
+    background:#0b0b0b;
+
+    cursor:pointer;
+
+    transition:
+        border .15s ease,
+        background .15s ease;
+}
+
+.method.selected{
+    border-color:#8950b8;
+
+    background:#17101e;
+}
+
+
+/* LOGO */
+
+.logo-box{
+    width:44px;
+    height:44px;
+
+    border-radius:10px;
+
+    background:#181818;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
+
+    margin-right:13px;
+}
+
+.logo-box img{
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+}
+
+.logo-fallback{
+    font-size:17px;
+    font-weight:800;
+
+    color:#aaa;
+}
+
+
+/* METHOD TEXT */
+
+.method-text{
+    flex:1;
+}
+
+.method-name{
+    font-size:14px;
+    font-weight:700;
+}
+
+.method-description{
+    margin-top:4px;
+
+    color:#666;
+
+    font-size:11px;
+}
+
+
+/* RADIO */
+
+.radio{
+    width:19px;
+    height:19px;
+
+    border-radius:50%;
+
+    border:1px solid #555;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.method.selected .radio{
+    border:5px solid #a76bd0;
+}
+
+
+/* CONTINUE */
+
+.continue-btn{
+    width:100%;
+
+    height:56px;
+
+    margin-top:14px;
+
+    border:0;
+
+    border-radius:13px;
+
+    background:#fff;
+
+    color:#080808;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    letter-spacing:.5px;
+
+    cursor:pointer;
+}
+
+.continue-btn:active{
+    transform:scale(.98);
+}
+
+
+/* SMALL DEMO NOTICE */
+
+.demo-note{
+    text-align:center;
+
+    margin-top:16px;
+
+    color:#444;
+
+    font-size:10px;
+
+    line-height:1.5;
+}
+
+
+/* ==============================
+   CONFIRMATION
+============================== */
+
+.confirm{
+    text-align:center;
+
+    padding:25px 5px;
+}
+
+.confirm-icon{
+    width:70px;
+    height:70px;
+
+    margin:0 auto 22px;
+
+    border-radius:50%;
+
+    background:#1d1425;
+
+    border:1px solid #75429c;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#c08ee5;
+
+    font-size:30px;
+}
+
+.confirm h2{
+    font-size:24px;
+
+    margin-bottom:9px;
+}
+
+.confirm p{
+    color:#777;
+
+    font-size:13px;
+
+    line-height:1.5;
+}
+
+.confirm-amount{
+    margin-top:24px;
+
+    font-size:38px;
+
+    font-weight:800;
+}
+
+.confirm-method{
+    margin-top:8px;
+
+    color:#888;
+
+    font-size:12px;
+}
+
+.confirm-btn{
+    width:100%;
+
+    height:55px;
+
+    margin-top:25px;
+
+    border:0;
+
+    border-radius:13px;
+
+    background:#fff;
+
+    color:#000;
+
+    font-size:14px;
+
+    font-weight:800;
+}
+
+
+/* ==============================
+   HIDDEN
+============================== */
+
+.hidden{
+    display:none !important;
+}
+
+
+/* ==============================
+   DESKTOP
+============================== */
+
+@media (min-width:700px){
+
+    body{
+        background:#050505;
+    }
+
+    .app{
+        max-width:500px;
+
+        box-shadow:
+            0 0 80px rgba(0,0,0,.8);
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div id="app" class="app">
+
+
+    <!-- ==========================
+         HOME
+    =========================== -->
+
+    <header class="topbar">
+
+        <div class="brand">
+            JX <span>FLASHPAY</span>
+        </div>
+
+    </header>
+
+
+    <main class="main">
+
+
+        <div class="status">
+
+            <div class="status-title">
+                Flashlight
+            </div>
+
+            <div
+                id="statusValue"
+                class="status-value">
+
+                OFF
+
+            </div>
+
+        </div>
+
+
+        <div class="flash-area">
+
+            <div
+                id="flashSwitch"
+                class="flash-switch"
+                onclick="flashlightAction()">
+
+
+                <div
+                    id="flashIcon"
+                    class="flash-icon">
+
+                    🔦
+
+                </div>
+
+
+                <div
+                    id="switchLabel"
+                    class="switch-label">
+
+                    OFF
+
+                </div>
+
+
+                <div class="switch-hint">
+
+                    Tap to control
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="bottom-info">
+
+            <p>
+                JX FlashPay
+            </p>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+<!-- ==================================
+     PAYMENT SCREEN
+=================================== -->
+
+<div
+    id="paymentScreen"
+    class="screen hidden">
+
+
+    <div class="payment-wrap">
+
+
+        <div class="payment-header">
+
+            <button
+                class="back-btn"
+                onclick="closePayment()">
+
+                ‹
+
+            </button>
+
+
+            <div class="payment-header-title">
+
+                Payment
+
+            </div>
+
+        </div>
+
+
+        <div class="payment-card">
+
+
+            <div class="fee-label">
+                Amount due
+            </div>
+
+
+            <div class="fee">
+                ₱499
+            </div>
+
+
+            <div class="fee-sub">
+                Flashlight service fee
+            </div>
+
+
+
+            <!-- AMOUNT INPUT -->
+
+            <div class="amount-section">
+
+                <label
+                    class="input-label"
+                    for="amountInput">
+
+                    Enter payment amount
+
+                </label>
+
+
+                <input
+                    id="amountInput"
+                    class="amount-box"
+                    type="number"
+                    inputmode="decimal"
+                    min="0"
+                    step="0.01"
+                    placeholder="₱0.00">
+
+            </div>
+
+
+
+            <!-- METHODS -->
+
+            <div class="methods-title">
+
+                Payment method
+
+            </div>
+
+
+            <!-- GCASH -->
+
+            <div
+                class="method"
+                onclick="chooseMethod(this,'GCash')">
+
+
+                <div class="logo-box">
+
+                    <!--
+                    PALITAN ITO NG:
+                    images/gcash.png
+                    -->
+
+                    <img
+                        src="images/gcash.png"
+                        alt="GCash"
+                        onerror="this.style.display='none';
+                        this.nextElementSibling.style.display='block';">
+
+                    <div
+                        class="logo-fallback"
+                        style="display:none;">
+
+                        G
+
+                    </div>
+
+                </div>
+
+
+                <div class="method-text">
+
+                    <div class="method-name">
+                        GCash
+                    </div>
+
+                    <div class="method-description">
+                        GCash
+                    </div>
+
+                </div>
+
+
+                <div class="radio"></div>
+
+            </div>
+
+
+
+            <!-- PAYPAL -->
+
+            <div
+                class="method"
+                onclick="chooseMethod(this,'PayPal')">
+
+
+                <div class="logo-box">
+
+                    <!--
+                    PALITAN ITO NG:
+                    images/paypal.png
+                    -->
+
+                    <img
+                        src="images/paypal.png"
+                        alt="PayPal"
+                        onerror="this.style.display='none';
+                        this.nextElementSibling.style.display='block';">
+
+                    <div
+                        class="logo-fallback"
+                        style="display:none;">
+
+                        P
+
+                    </div>
+
+                </div>
+
+
+                <div class="method-text">
+
+                    <div class="method-name">
+                        PayPal
+                    </div>
+
+                    <div class="method-description">
+                        PayPal
+                    </div>
+
+                </div>
+
+
+                <div class="radio"></div>
+
+            </div>
+
+
+
+            <!-- MAYA -->
+
+            <div
+                class="method"
+                onclick="chooseMethod(this,'Maya')">
+
+
+                <div class="logo-box">
+
+                    <!--
+                    PALITAN ITO NG:
+                    images/maya.png
+                    -->
+
+                    <img
+                        src="images/maya.png"
+                        alt="Maya"
+                        onerror="this.style.display='none';
+                        this.nextElementSibling.style.display='block';">
+
+                    <div
+                        class="logo-fallback"
+                        style="display:none;">
+
+                        M
+
+                    </div>
+
+                </div>
+
+
+                <div class="method-text">
+
+                    <div class="method-name">
+                        Maya
+                    </div>
+
+                    <div class="method-description">
+                        Maya
+                    </div>
+
+                </div>
+
+
+                <div class="radio"></div>
+
+            </div>
+
+
+
+            <button
+                class="continue-btn"
+                onclick="continuePayment()">
+
+                CONTINUE
+
+            </button>
+
+
+            <div class="demo-note">
+
+                Demo payment only. No real payment is processed.
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==================================
+     CONFIRMATION SCREEN
+=================================== -->
+
+<div
+    id="confirmScreen"
+    class="screen hidden">
+
+
+    <div class="payment-wrap">
+
+
+        <div class="payment-header">
+
+            <button
+                class="back-btn"
+                onclick="backToPayment()">
+
+                ‹
+
+            </button>
+
+
+            <div class="payment-header-title">
+
+                Confirm payment
+
+            </div>
+
+        </div>
+
+
+        <div class="payment-card confirm">
+
+
+            <div class="confirm-icon">
+
+                ✓
+
+            </div>
+
+
+            <h2>
+                Payment Details
+            </h2>
+
+
+            <p>
+                Review the simulated payment<br>
+                before continuing.
+            </p>
+
+
+            <div
+                id="confirmAmount"
+                class="confirm-amount">
+
+                ₱499.00
+
+            </div>
+
+
+            <div
+                id="confirmMethod"
+                class="confirm-method">
+
+                GCash
+
+            </div>
+
+
+            <button
+                class="confirm-btn"
+                onclick="completePayment()">
+
+                CONFIRM
+
+            </button>
+
+
+            <div class="demo-note">
+
+                Simulation only — no money will be transferred.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =================================
+   VARIABLES
+================================= */
+
+let flashlightTrack = null;
+
+let flashlightOn = false;
+
+let selectedMethod = "";
+
+let enteredAmount = 0;
+
+
+/* =================================
+   ELEMENTS
+================================= */
+
+const app =
+    document.getElementById("app");
+
+const statusValue =
+    document.getElementById("statusValue");
+
+const switchLabel =
+    document.getElementById("switchLabel");
+
+const paymentScreen =
+    document.getElementById("paymentScreen");
+
+const confirmScreen =
+    document.getElementById("confirmScreen");
+
+const amountInput =
+    document.getElementById("amountInput");
+
+
+
+/* =================================
+   FLASHLIGHT ACTION
+================================= */
+
+function flashlightAction(){
+
+    if(!flashlightOn){
+
+        turnFlashlightOn();
+
+    }else{
+
+        /*
+        Kapag pinindot ang OFF,
+        payment screen muna ang lalabas.
+
+        Hindi natin bina-block ang phone
+        system controls.
+        */
+
+        openPayment();
+
+    }
+
+}
+
+
+
+/* =================================
+   TURN FLASHLIGHT ON
+================================= */
+
+async function turnFlashlightOn(){
+
+    try{
+
+        if(!navigator.mediaDevices ||
+           !navigator.mediaDevices.getUserMedia){
+
+            alert(
+                "Flashlight control is not supported by this browser."
+            );
+
+            return;
+        }
+
+
+        const stream =
+            await navigator.mediaDevices
+                .getUserMedia({
+
+                    video:{
+                        facingMode:{
+                            ideal:"environment"
+                        }
+                    }
+
+                });
+
+
+        const track =
+            stream.getVideoTracks()[0];
+
+
+        const capabilities =
+            track.getCapabilities();
+
+
+        if(!capabilities.torch){
+
+            track.stop();
+
+            alert(
+                "Your browser does not support flashlight control."
+            );
+
+            return;
+
+        }
+
+
+        await track.applyConstraints({
+
+            advanced:[
+                {
+                    torch:true
+                }
+            ]
+
+        });
+
+
+        flashlightTrack = track;
+
+        flashlightOn = true;
+
+        updateFlashUI();
+
+    }
+    catch(error){
+
+        console.log(error);
+
+        alert(
+            "Camera permission is required to control the flashlight."
+        );
+
+    }
+
+}
+
+
+
+/* =================================
+   UPDATE FLASHLIGHT UI
+================================= */
+
+function updateFlashUI(){
+
+    if(flashlightOn){
+
+        app.classList.add("on");
+
+        statusValue.textContent =
+            "ON";
+
+        switchLabel.textContent =
+            "ON";
+
+    }else{
+
+        app.classList.remove("on");
+
+        statusValue.textContent =
+            "OFF";
+
+        switchLabel.textContent =
+            "OFF";
+
+    }
+
+}
+
+
+
+/* =================================
+   OPEN PAYMENT
+================================= */
+
+function openPayment(){
+
+    paymentScreen.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+
+/* =================================
+   CLOSE PAYMENT
+================================= */
+
+function closePayment(){
+
+    paymentScreen.classList.add(
+        "hidden"
+    );
+
+}
+
+
+
+/* =================================
+   SELECT PAYMENT METHOD
+================================= */
+
+function chooseMethod(element,method){
+
+    document
+        .querySelectorAll(".method")
+        .forEach(item => {
+
+            item.classList.remove(
+                "selected"
+            );
+
+        });
+
+
+    element.classList.add(
+        "selected"
+    );
+
+
+    selectedMethod =
+        method;
+
+}
+
+
+
+/* =================================
+   CONTINUE PAYMENT
+================================= */
+
+function continuePayment(){
+
+    const amount =
+        parseFloat(
+            amountInput.value
+        );
+
+
+    if(!amount ||
+       amount <= 0){
+
+        alert(
+            "Please enter the amount you want to pay."
+        );
+
+        amountInput.focus();
+
+        return;
+
+    }
+
+
+    if(!selectedMethod){
+
+        alert(
+            "Please select a payment method."
+        );
+
+        return;
+
+    }
+
+
+    enteredAmount =
+        amount;
+
+
+    document.getElementById(
+        "confirmAmount"
+    ).textContent =
+        formatPeso(amount);
+
+
+    document.getElementById(
+        "confirmMethod"
+    ).textContent =
+        selectedMethod;
+
+
+    paymentScreen.classList.add(
+        "hidden"
+    );
+
+
+    confirmScreen.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+
+/* =================================
+   BACK TO PAYMENT
+================================= */
+
+function backToPayment(){
+
+    confirmScreen.classList.add(
+        "hidden"
+    );
+
+    paymentScreen.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+
+/* =================================
+   COMPLETE SIMULATED PAYMENT
+================================= */
+
+function completePayment(){
+
+    /*
+    Walang tunay na transaction dito.
+    Simulation lamang.
+    */
+
+    alert(
+        "Payment successful!\n\n" +
+        "Amount: " +
+        formatPeso(enteredAmount) +
+        "\nMethod: " +
+        selectedMethod +
+        "\n\nDemo payment only."
+    );
+
+
+    confirmScreen.classList.add(
+        "hidden"
+    );
+
+
+    paymentScreen.classList.add(
+        "hidden"
+    );
+
+
+    stopFlashlight();
+
+
+    flashlightOn = false;
+
+    selectedMethod = "";
+
+    enteredAmount = 0;
+
+    amountInput.value = "";
+
+
+    document
+        .querySelectorAll(".method")
+        .forEach(item => {
+
+            item.classList.remove(
+                "selected"
+            );
+
+        });
+
+
+    updateFlashUI();
+
+}
+
+
+
+/* =================================
+   FORMAT PESO
+================================= */
+
+function formatPeso(value){
+
+    return "₱" +
+        Number(value).toLocaleString(
+            "en-PH",
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        );
+
+}
+
+
+
+/* =================================
+   STOP FLASHLIGHT
+================================= */
+
+function stopFlashlight(){
+
+    if(!flashlightTrack){
+
+        return;
+
+    }
+
+
+    try{
+
+        flashlightTrack
+            .applyConstraints({
+
+                advanced:[
+                    {
+                        torch:false
+                    }
+                ]
+
+            })
+            .catch(()=>{});
+
+    }catch(error){}
+
+
+    try{
+
+        flashlightTrack.stop();
+
+    }catch(error){}
+
+
+    flashlightTrack = null;
+
+}
+
+
+
+/* =================================
+   PAGE HIDDEN
+================================= */
+
+/*
+Hindi natin pinipilit na manatiling bukas
+ang flashlight kapag iniiwan/sinisara
+ang browser. System controls remain
+available.
+*/
+
+document.addEventListener(
+    "visibilitychange",
+    function(){
+
+        if(document.hidden &&
+           flashlightTrack){
+
+            /*
+            Browser/device ang may final
+            control sa camera/torch state.
+            */
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
